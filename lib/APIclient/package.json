@@ -1,0 +1,17 @@
+{
+    "name": "API_Client",
+    "version": "0.0.1",
+    "author": "Tiffany Lee",
+    "license": "--",
+    "scripts": {
+        "start": "node APIclient.js"
+    },
+    "dependencies": {
+        "rest":"*",
+        "when":"*",
+        "lodash": "*"
+    },
+    "devDependencies": {
+        "jasmine-node":"*"
+    }
+}
