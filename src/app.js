@@ -1,6 +1,6 @@
 'use strict';
 
-var angular = require('angular');
+require('angular');
 require('angular-route');
 require('../lib/rbc.js');                                   // TODO: RBC factories?
 

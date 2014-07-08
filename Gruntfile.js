@@ -2,18 +2,22 @@
 
 module.exports = function(grunt) {
 
+    // Load all
     require('load-grunt-tasks')(grunt);
-//    require('minifyify');
 
     grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
+
         // Build
-            // ORDER?
         clean: {
             www: {
                 src: ['www']
             },
             temp: {
                 src: ['temp']
+            },
+            browserify: {
+                src: ['b']
             }
         },
         copy: {
@@ -24,10 +28,7 @@ module.exports = function(grunt) {
                         cwd: 'src/',
                         src: [
                             'partials/*.html',
-                            '*.html',
-                            'tests/**',
-                            '*.json',
-                            'Gruntfile.js'
+                            '*.html'
                         ],
                         dest: 'www',
                         filter: 'isFile'
@@ -35,9 +36,11 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         src: [
-                            'tests/**',
+                            'lib/**',
                             '*.json',
-                            'Gruntfile.js'
+                            'Gruntfile.js',
+                            'scripts/jenkins.sh',
+                            'npm-shrinkwrap.json'
                         ],
                         dest: 'www',
                         filter: 'isFile'
@@ -52,10 +55,11 @@ module.exports = function(grunt) {
                 dest: 'temp/less',
                 filter: 'isFile'
             }
+
         },
         less: {
             files: {
-                'temp/css/app.css': 'temp/less/app.less',
+                'temp/css/app.css': 'temp/less/app.less'
             }
         },
         cssmin: {
@@ -71,6 +75,33 @@ module.exports = function(grunt) {
                         dest: 'www/app.js'
                     }
                 ]
+            },
+            test: {
+                files: [
+                    {
+                        src: 'tests/entry.js',
+                        dest: 'browserified.js'
+                    }
+                ]
+            }
+        },
+        jshint: {
+            ignore_warning: {
+                options: {
+                    '-W097': true,  // ignore: 'use strict' has to be wrapped in fn
+                                        // browserify will wrap it
+                    globals: {
+                        angular: false,
+                        require: false,
+                        module: false,
+                        _: false,
+                        $: false,
+                        document: false,
+                        navigator: false,
+                        console: false
+                    }
+                },
+                src: ['src/js/**']
             }
         },
         uglify: {
@@ -83,16 +114,90 @@ module.exports = function(grunt) {
                 }
             }
         },
-        // TODO: jshint, uglify
+        shell: {
+            production_node_modules: {
+                command: 'cd www; npm install --production; cd ..',
+                options: {
+                    async: true,
+                    stdout: true,
+                    stderr: true
+                }
+            },
+            shrinkwrap: {
+                command: 'npm shrinkwrap --dev'
+            }
 
-
+        },
+        jasmine: {
+            src: [
+                'browserified.js'
+            ],
+            options: {
+                junit: {
+                    path: 'tests/output/junit'
+                },
+                template: require('grunt-template-jasmine-istanbul'),
+                templateOptions: {
+                    coverage: 'tests/output/coverage/coverage.json',
+                    report: [
+                        {type: 'cobertura', options: {dir: 'tests/output/coverage/cobertura'}},
+                        {type: 'lcov', options: {dir: 'tests/output/coverage/lcov'}}
+                    ],
+                    thresholds: {
+                        'lines': 0,
+                        'statements': 0,
+                        'branches': 0,
+                        'functions': 0
+                    }
+                }
+            }
+        },
 
         // Test
 
         // Inspect
 
         // Package
+        easy_rpm: {
+            release: {
+                options: {
+                    name: '<%=pkg.name%>',
+                    version: '<%=pkg.version%>',
+                    license: '<%=pkg.license%>'
+
+                    /*
+                    preInstallScript: [
+                        "sudo mkdir -p /var/www"
+                    ],
+                    postInstallScript: [
+                        "cd var/www/customer-app-prod",
+                        // the customer-app init.d script must be placed into /etc/init.d/
+                        // see below for the script
+                        "sudo mv scripts/customer-app /etc/init.d/",
+                        // make sure that everyone can run the service
+                        "sudo chmod a+x /etc/init.d/customer-app",
+                        // make sure that files are laid down in the correct places
+                        "python scripts/rpm_tests.py"
+                    ],
+                    preUninstallScript: [
+                        "sudo service customer-app stop",
+                        // make sure to remove the service script from /etc/init.d with a pre-uninstall script
+                        "sudo rm /etc/init.d/customer-app"
+                    ]
+                    */
+
+                },
+                files: [
+                    {src: "www/**", dest: "/var/www/"}
+                ]
+            }
+        },
             // TODO: version bump
+        bump: {
+            options: {
+                files: ['package.json']
+            }
+        },
 
         // Connect
         connect: {
@@ -109,21 +214,22 @@ module.exports = function(grunt) {
     grunt.registerTask('build',
         [
             'clean:www',
+            'jshint',
+            'shell:shrinkwrap',
             'copy:files',
             'copy:less',
             'less',
             'cssmin',
-            'browserify',
-//            'uglify',
+            'browserify:js',
+            'uglify',
             'clean:temp'
         ]
     );
     grunt.registerTask('localhost', ['build', 'connect']);  // host locally
 
-    grunt.registerTask('test', []);
+    grunt.registerTask('test', ['clean:browserify', 'browserify:test', 'jasmine']);
     grunt.registerTask('inspect', []);
-    grunt.registerTask('package', []);
-    grunt.registerTask('jenkins', ['build', 'test', 'inspect', 'package']);
-
+    grunt.registerTask('package', ['bump', 'easy_rpm']);
+    grunt.registerTask('jenkins', ['build', 'shell:production_node_modules', 'test', 'inspect', 'package']);
 
 };

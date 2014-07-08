@@ -1,13 +1,13 @@
 'use strict';
 
-var angular = require('angular');
-
 var feature1Factory = angular.module('MyApp.Feature1')
     .factory('Feature1Factory',
         [
             function() {
 
-            // TODO
+                return {
+                    method: function(){console.log('hi');}
+                };
 
             }
         ]

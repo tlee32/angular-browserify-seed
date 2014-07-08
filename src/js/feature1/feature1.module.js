@@ -1,7 +1,5 @@
 'use strict';
 
-var angular = require('angular');
-
 var feature1Module = angular.module('MyApp.Feature1', []);
 
 // Include all files that depend on this module here:

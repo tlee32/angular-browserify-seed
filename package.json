@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "dependencies": {
     "angular": "*",
-    "angular-mocks": "*",
     "angular-route": "*"
   },
   "devDependencies": {
@@ -14,8 +13,14 @@
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-less": "*",
-    "grunt-contrib-uglify": "~0.5.0",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-jasmine": "*",
+    "grunt-template-jasmine-istanbul": "*",
+    "grunt-shell": "*",
     "grunt-browserify": "*",
-    "load-grunt-tasks": "*"
+    "grunt-easy-rpm": "*",
+    "grunt-bump": "*",
+    "load-grunt-tasks": "*",
+    "angular-mocks": "*"
   }
 }
