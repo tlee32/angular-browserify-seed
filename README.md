@@ -6,6 +6,7 @@ This seed project includes the container API and an API client to converse with 
 2. Download all the node modules needed for development:
 `sh script.sh`
 3. To run the app locally:`grunt localhost`
+4. To run the tests: `grunt test`
 
 ### Testing
 [Testem test runner](https://github.com/airportyh/testem) and [Browserify](http://browserify.org/) is used to test this
