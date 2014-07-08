@@ -57,13 +57,17 @@ module.exports = function(grunt) {
 
         },
         less: {
-            files: {
-                'temp/css/app.css': 'temp/less/app.less'
+            default: {
+                files: {
+                    'temp/css/app.css': 'temp/less/app.less'
+                }
             }
         },
         cssmin: {
-            files: {
-                'www/css/app.css': ['temp/css/app.css']
+            default: {
+                files: {
+                    'www/css/app.css': ['temp/css/app.css']
+                }
             }
         },
         browserify: {
