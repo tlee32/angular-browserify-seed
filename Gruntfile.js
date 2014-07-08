@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'src/',
                         src: [
-                            'partials/*.html',
+                            '**/*.html',
                             '*.html'
                         ],
                         dest: 'www',
@@ -36,7 +36,6 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         src: [
-                            'lib/**',
                             '*.json',
                             'Gruntfile.js',
                             'scripts/jenkins.sh',
@@ -99,9 +98,10 @@ module.exports = function(grunt) {
                         document: false,
                         navigator: false,
                         console: false
-                    }
+                    },
+                    ignores: ['src/less/*.less', 'src/**/*.html']
                 },
-                src: ['src/js/**']
+                src: ['src/**']
             }
         },
         uglify: {
