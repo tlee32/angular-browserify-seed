@@ -116,7 +116,7 @@ module.exports = function(grunt) {
                         console: false,
                         jQuery: false
                     },
-                    ignores: ['src/less/*.less', 'src/**/*.html']
+                    ignores: ['src/**/*.less', 'src/**/*.html', 'src/**/*.png', 'src/**/*.jpg']
                 },
                 src: ['src/**']
             }
