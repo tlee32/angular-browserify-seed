@@ -1,4 +1,22 @@
+.thinFont {
+  font-family: @defaultFont, sans-serif;
+  font-weight: 100;
+}
+.normalFont {
+  font-family: @defaultFont, sans-serif;
+  font-weight: 300;
+}
+.boldFont {
+  font-family: @defaultFont, sans-serif;
+  font-weight: bold;
+}
+
+.scrolling {  // momentum scrolling
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
 html {
   height: 100%;
   width: 100%;
+  .normalFont;
 }
