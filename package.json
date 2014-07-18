@@ -2,25 +2,28 @@
   "name": "Seed",
   "version": "0.0.1",
   "dependencies": {
-    "angular": "*",
-    "angular-route": "*"
+      "angular": "*",
+      "angular-route": "*",
+      "bootstrap": "*",
+      "lodash": "*"
   },
   "devDependencies": {
-    "grunt": "*",
-    "grunt-contrib-connect": "*",
-    "grunt-contrib-copy": "*",
-    "grunt-contrib-clean": "*",
-    "grunt-contrib-cssmin": "*",
-    "grunt-contrib-jshint": "*",
-    "grunt-contrib-less": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-jasmine": "*",
-    "grunt-template-jasmine-istanbul": "*",
-    "grunt-shell": "*",
-    "grunt-browserify": "*",
-    "grunt-easy-rpm": "*",
-    "grunt-bump": "*",
-    "load-grunt-tasks": "*",
-    "angular-mocks": "*"
+      "grunt": "*",
+      "grunt-contrib-connect": "*",
+      "grunt-contrib-copy": "*",
+      "grunt-contrib-clean": "*",
+      "grunt-contrib-cssmin": "*",
+      "grunt-contrib-jshint": "*",
+      "grunt-contrib-less": "*",
+      "grunt-contrib-uglify": "*",
+      "grunt-contrib-jasmine": "*",
+      "grunt-template-jasmine-istanbul": "*",
+      "grunt-contrib-concat": "*",
+      "grunt-shell": "*",
+      "grunt-browserify": "*",
+      "grunt-easy-rpm": "*",
+      "grunt-bump": "*",
+      "load-grunt-tasks": "*",
+      "angular-mocks": "*"
   }
 }

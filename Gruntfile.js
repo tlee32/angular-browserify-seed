@@ -43,6 +43,13 @@ module.exports = function(grunt) {
                         ],
                         dest: 'www',
                         filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'node_modules/bootstrap/dist/css/',
+                        src: ['bootstrap.css'],
+                        dest: 'www/css',
+                        filter: 'isFile'
                     }
                 ]
             },
@@ -61,6 +68,12 @@ module.exports = function(grunt) {
                 files: {
                     'temp/css/app.css': 'temp/less/app.less'
                 }
+            }
+        },
+        concat: {
+            less: {
+                src: 'src/**/*.less',
+                dest: 'temp/less/app.less'
             }
         },
         cssmin: {
@@ -97,11 +110,11 @@ module.exports = function(grunt) {
                         angular: false,
                         require: false,
                         module: false,
-                        _: false,
-                        $: false,
+                        history: false,
                         document: false,
                         navigator: false,
-                        console: false
+                        console: false,
+                        jQuery: false
                     },
                     ignores: ['src/less/*.less', 'src/**/*.html']
                 },
@@ -220,8 +233,8 @@ module.exports = function(grunt) {
             'clean:www',
             'jshint',
             'shell:shrinkwrap',
+            'concat',
             'copy:files',
-            'copy:less',
             'less',
             'cssmin',
             'browserify:js',
