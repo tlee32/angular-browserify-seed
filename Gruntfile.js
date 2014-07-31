@@ -116,16 +116,20 @@ module.exports = function(grunt) {
                         document: false,
                         navigator: false,
                         console: false,
-                        jQuery: false
+                        window: false,
+                        setTimeout: false
                     },
-                    ignores: ['src/**/*.less', 'src/**/*.html', 'src/**/*.png', 'src/**/*.jpg']
+                    ignores: ['src/**/*.less', 'src/**/*.html', 'src/**/*.png', 'src/**/*.jpg', 'src/**/*.css', 'src/**/icomoon*']
                 },
                 src: ['src/**']
             }
         },
         uglify: {
             options: {
-                mangle: false
+                mangle: false,
+                compress: {
+                    drop_console:true
+                }
             },
             my_target: {
                 files: {
@@ -234,6 +238,19 @@ module.exports = function(grunt) {
         [
             'clean:www',
             'jshint',
+            'concat',
+            'copy:files',
+            'less',
+            'cssmin',
+            'browserify:js',
+            'clean:temp'
+        ]
+    );
+
+    grunt.registerTask('prod-build',
+        [
+            'clean:www',
+            'jshint',
             'shell:shrinkwrap',
             'concat',
             'copy:files',
@@ -249,6 +266,6 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['clean:browserify', 'browserify:test', 'jasmine']);
     grunt.registerTask('inspect', []);
     grunt.registerTask('package', ['bump', 'easy_rpm']);
-    grunt.registerTask('jenkins', ['build', 'shell:production_node_modules', 'test', 'inspect', 'package']);
+    grunt.registerTask('jenkins', ['prod-build', 'shell:production_node_modules', 'test', 'inspect', 'package']);
 
 };
