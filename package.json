@@ -23,6 +23,7 @@
       "grunt-browserify": "*",
       "grunt-easy-rpm": "*",
       "grunt-bump": "*",
+      "grunt-cache-bust": "*",
       "load-grunt-tasks": "*",
       "angular-mocks": "*"
   }

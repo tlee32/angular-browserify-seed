@@ -151,6 +151,22 @@ module.exports = function(grunt) {
             }
 
         },
+        cacheBust: {
+            default: {
+                options: {
+                    encoding: 'utf8',
+                    algorithm: 'md5',
+                    length: 16
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'www',
+                    src: ['*.html', '*.css'],
+                    dest: 'www/'
+                }]
+            }
+
+        },
         jasmine: {
             src: [
                 'browserified.js'
@@ -243,6 +259,7 @@ module.exports = function(grunt) {
             'less',
             'cssmin',
             'browserify:js',
+            'cacheBust',
             'clean:temp'
         ]
     );
