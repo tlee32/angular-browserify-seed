@@ -4,8 +4,8 @@ This seed project includes the container API and an API client to converse with 
 ### Setup
 1. Clone this repo
 2. Download all the node modules needed for development:
-`sh script.sh`
-3. To run the app locally:`grunt localhost`
+`sh setup.sh`
+3. To run the app locally: `grunt localhost`
 4. To run the tests: `grunt test`
 
 ### Testing
@@ -20,8 +20,6 @@ browserified.js.
 1. Include the dependencies of all the test files in tests/entry.js using Browserify's require method.
 2. Include all the test files you want testem to test in tests/entry.js using Browserify's require method.
 3. Use the command `testem` in the root of this directory to run the tests.
-
-
 
 ### TODO
 * split up app.less into feature directories

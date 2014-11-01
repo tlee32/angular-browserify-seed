@@ -1,14 +1,11 @@
 'use strict';
 
-require('angular');
-require('angular-route');
-require('../lib/rbc.js');                                   // TODO: RBC factories?
-
 // Include all modules here:
+require('./templates/templates.module.js');
 require('./feature1/feature1.module.js');
 require('./feature2/feature2.module.js');
 
-angular.module('MyApp', ['ngRoute', 'MyApp.Feature1', 'MyApp.Feature2'])
+angular.module('MyApp', ['ngRoute', 'Templates', 'MyApp.Feature1', 'MyApp.Feature2'])
     .config(function($routeProvider, $locationProvider) {
 
         $routeProvider.otherwise({
@@ -23,7 +20,14 @@ angular.module('MyApp', ['ngRoute', 'MyApp.Feature1', 'MyApp.Feature2'])
 
         // TODO: Add more routes here
 
-        $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode(false);
+    })
+    .run(function () {
+
+        window.device.ready(function () {
+            window.deviceOrientation.setOrientation(window.deviceOrientation.MODE.PORTRAIT);
+            window.navigationBar.hide({ fixed: true });
+        });
     })
     .controller('MainController', ['$scope', function($scope) {
         // TODO

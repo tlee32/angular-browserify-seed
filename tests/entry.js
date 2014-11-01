@@ -1,6 +1,4 @@
-// Add dependencies for all tests here:
-require('angular');
-require('../node_modules/angular-mocks/angular-mocks.js');
+// Add source files here:
 require('../src/app.js');
 
 // Add test files here:

@@ -1,11 +1,10 @@
 {
     "framework": "jasmine",
-    "serve_files": ["browserified.js"],
+    "serve_files": ["www/vendor.js", "browserified.js"],
     "src_files": [
-        "src/**/*.js",
         "tests/**"
     ],
-    "before_tests": "browserify tests/entry.js -o browserified.js",
+    "before_tests": "grunt testem",
     "on_exit": "rm browserified.js",
-    "launch_in_dev": ["chrome"]
+    "launch_in_dev": ["chrome", "safari", "firefox"]
 }

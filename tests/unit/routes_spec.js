@@ -20,8 +20,8 @@ describe('Routes', function() {
     });
 
     it('should map routes to partials', function() {
-        expect(route.routes[null].templateUrl).toBe('partials/feature1.tpl.html');
-        expect(route.routes['/two'].templateUrl).toBe('partials/feature2.tpl.html');
+        expect(route.routes[null].templateUrl).toBe('feature1/feature1.tpl.html');
+        expect(route.routes['/two'].templateUrl).toBe('feature2/feature2.tpl.html');
     });
 
 });

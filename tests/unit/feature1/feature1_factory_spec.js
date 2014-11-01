@@ -17,5 +17,4 @@ describe('Feature1 Factory', function() {
         expect(Feature1Factory).toBeDefined();
     });
 
-
 });
