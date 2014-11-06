@@ -1,6 +1,3 @@
-// Add source files here:
-require('../src/app.js');
-
 // Add test files here:
 require('./unit/app_spec.js');
 require('./unit/routes_spec.js');

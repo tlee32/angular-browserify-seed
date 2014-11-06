@@ -27,9 +27,9 @@
     "angular-mocks": "*",
     "grunt-wrap": "*",
     "grunt-angular-templates": "*",
-    "grunt-zip": "*",
     "grunt-update-json": "*",
     "grunt-contrib-connect": "~0.7.0",
-    "grunt-contrib-watch": "~0.6.1"
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-compress": "~0.12.0"
   }
 }

@@ -119,7 +119,7 @@ module.exports = function(grunt) {
                             ]
                         },
                         src: 'tests/entry.js',
-                        dest: 'browserified.js'
+                        dest: 'tests.js'
                     }
                 ]
             }
@@ -237,10 +237,11 @@ module.exports = function(grunt) {
         // Test
         jasmine: {
             src: [
-                'browserified.js'
+                'www/app.js'
             ],
             options: {
                 vendor: ['www/vendor.js'],
+                specs: 'tests.js',
                 junit: {
                     path: 'tests/output/junit'
                 },
@@ -289,10 +290,19 @@ module.exports = function(grunt) {
                 ]
             }
         },
-        zip: {
-            www: {
-                src: ['www/**'],
-                dest: grunt.file.readJSON("package.json").name + '-' + grunt.file.readJSON('package.json').version + '.zip'
+        compress: {
+            main: {
+                options: {
+                    archive: grunt.file.readJSON("package.json").name + '-' + grunt.file.readJSON('package.json').version + '.zip'
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'www',
+                        src: ['**'],
+                        dest: '<%= pkg.name %>' + '/'
+                    }
+                ]
             }
         },
 
@@ -409,14 +419,15 @@ module.exports = function(grunt) {
     grunt.registerTask('update-version', ['compute-new-version', 'write-new-version']);
 
     // Test
-    grunt.registerTask('test', ['clean:browserify', 'browserify:vendor-test', 'browserify:test', 'jasmine']);
-    grunt.registerTask('testem', ['clean:browserify', 'browserify:vendor-test', 'browserify:test']);
+    grunt.registerTask('test', ['clean:browserify', 'browserify:vendor-test', 'browserify:js', 'browserify:test', 'jasmine']);
+    grunt.registerTask('testem', ['clean:browserify', 'browserify:vendor-test', 'browserify:js', 'browserify:test']);
 
     // Inspect
     grunt.registerTask('inspect', []);
 
     // Package
-    grunt.registerTask('package', ['easy_rpm']);
+    grunt.registerTask('package-rpm', ['easy_rpm']);
+    grunt.registerTask('package', ['compress']);
 
     // Push
     grunt.registerTask('push', ['shell:push']);
@@ -436,7 +447,7 @@ module.exports = function(grunt) {
             'prod-build',
             'test',
             'inspect',
-            'package'
+            'package-rpm'
         ]
     );
 
@@ -448,7 +459,7 @@ module.exports = function(grunt) {
             'prod-build',
             'test',
             'inspect',
-            'package'
+            'package-rpm'
         ]
     );
 
