@@ -3,10 +3,13 @@ module.exports = function(grunt) {
     // Load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
-    /** CONFIGURATION **/
+    /**************************
+     *      CONFIGURATION     *
+     **************************/
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        newVersion: '',
+        newVersion: '<%= pkg.version %>',
         snapshot: '',
 
         // Build
@@ -355,8 +358,13 @@ module.exports = function(grunt) {
         }
     });
 
-    /** TASKS **/
-    grunt.registerTask('build',
+    /**********************
+     *       TASKS        *
+     * ********************/
+
+    /************* Development *************/
+
+     grunt.registerTask('build',
         [
             'clean:www',
             'jshint',
@@ -393,14 +401,18 @@ module.exports = function(grunt) {
         ]
     );
 
+    grunt.registerTask('testem', ['clean:browserify', 'browserify:vendor-test', 'browserify:js', 'browserify:test']);
+
     // Run Locally
     grunt.registerTask('localhost', ['build', 'connect', 'watch']);
+
+
+    /************* Jenkins *************/
 
     // Version
     grunt.registerTask('set-snapshot', function() {
         grunt.config('snapshot', '-SNAPSHOT');
     });
-
     grunt.registerTask('set-new-version', function() {
         grunt.config('newVersion', grunt.file.readJSON('package.json').version.split('-')[0]);
         console.log(grunt.config('newVersion'));
@@ -408,19 +420,18 @@ module.exports = function(grunt) {
     grunt.registerTask('compute-new-version', function() {
         var oldVersion = grunt.file.readJSON('package.json').version;
         oldVersion = oldVersion.split('-')[0];
-        grunt.config('newVersion', '0.0.' + (parseInt(oldVersion.split('.')[2]) + 1));
-        console.log(grunt.config('newVersion'));
+        var oldVersionSplit = oldVersion.split('.');
+        var firstTwoNums = oldVersionSplit[0] + '.' + oldVersionSplit[1] + '.';
+        grunt.config('newVersion', firstTwoNums + (parseInt(oldVersion.split('.')[2]) + 1));
+        console.log(oldVersion + ' => ' + grunt.config('newVersion'));
     });
-
     grunt.registerTask('add-snapshot', ['json-replace:add']);
     grunt.registerTask('remove-snapshot', ['json-replace:remove', 'set-new-version']);
     grunt.registerTask('write-new-version', ['json-replace:version']);
-
     grunt.registerTask('update-version', ['compute-new-version', 'write-new-version']);
 
     // Test
     grunt.registerTask('test', ['clean:browserify', 'browserify:vendor-test', 'browserify:js', 'browserify:test', 'jasmine']);
-    grunt.registerTask('testem', ['clean:browserify', 'browserify:vendor-test', 'browserify:js', 'browserify:test']);
 
     // Inspect
     grunt.registerTask('inspect', []);
@@ -472,7 +483,7 @@ module.exports = function(grunt) {
         ]
     );
 
-    /** NOTES **/
+    /************* Notes *************/
     // doesn't work in jenkins b/c centOS can't run grunt-testem...
     // grunt.registerTask('test', ['clean:browserify', 'browserify:test', 'testem']);
 
