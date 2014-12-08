@@ -1,3 +1,34 @@
+var todayDateAndTime = function() {
+    var now = new Date(),
+        month = now.getMonth() + 1,
+        date = now.getDate(),
+        hours = now.getHours(),
+        minutes = now.getMinutes(),
+        seconds = now.getSeconds();
+
+    if (month < 10) {
+        month = '0' + month;
+    }
+
+    if (date < 10) {
+        date = '0' + date;
+    }
+
+    if (hours < 10) {
+        hours = '0' + hours;
+    }
+
+    if (minutes < 10) {
+        minutes = '0' + minutes;
+    }
+
+    if (seconds < 10) {
+        seconds = '0' + seconds;
+    }
+
+    return '' + now.getFullYear() + month + date + '.' + hours + minutes + seconds;
+};
+
 module.exports = function(grunt) {
 
     // Load all grunt tasks
@@ -9,6 +40,8 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        git_commit: grunt.option('git'),
+        today_date_time: todayDateAndTime(),
         newVersion: '<%= pkg.version %>',
         snapshot: '',
 
@@ -270,26 +303,36 @@ module.exports = function(grunt) {
 
         // Package
         easy_rpm: {
-            options: {
-                name: '<%= pkg.name %>',
-                version: '<%=newVersion%>',
-                license: 'None',
-                postInstallScript: [
-                    'chown -R nginx:nginx /var/www/' + '<%= pkg.name %>'
-                ],
-                postUninstallScript: [
-                    'rm -r /var/www/' + '<%= pkg.name %>'
+            snapshot: {
+                options: {
+                    name: grunt.file.readJSON("package.json").name,
+                    version: '<%=newVersion%>' + '.' + 'SNAPSHOT' + '.' + '<%= today_date_time %>' + '.' + '<%= git_commit %>',
+                    license: 'none',
+                    postInstallScript: [
+                        "chown -R nginx:nginx /var/www/" + '<%=pkg.name%>'
+                    ],
+                    postUninstallScript: [
+                        'rm -r /var/www/' + '<%= pkg.name %>'
+                    ]
+                },
+                files: [
+                    {cwd: "www", src: "**", dest: "/var/www/" + '<%=pkg.name%>', owner: "nginx", group: "nginx"}
                 ]
             },
             release: {
+                options: {
+                    name: grunt.file.readJSON("package.json").name,
+                    version: '<%=newVersion%>',
+                    license: 'none',
+                    postInstallScript: [
+                        "chown -R nginx:nginx /var/www/" + '<%=pkg.name%>'
+                    ],
+                    postUninstallScript: [
+                        'rm -r /var/www/' + '<%= pkg.name %>'
+                    ]
+                },
                 files: [
-                    {
-                        cwd: 'www',
-                        src: "**",
-                        dest: "/var/www/" + "<%= pkg.name %>",
-                        owner: 'nginx',
-                        group: 'nginx'
-                    }
+                    {cwd: "www", src: "**", dest: "/var/www/" + '<%=pkg.name%>', owner: "nginx", group: "nginx"}
                 ]
             }
         },
@@ -437,7 +480,8 @@ module.exports = function(grunt) {
     grunt.registerTask('inspect', []);
 
     // Package
-    grunt.registerTask('package-rpm', ['easy_rpm']);
+    grunt.registerTask('package-rpm:snapshot', ['easy_rpm:snapshot']);
+    grunt.registerTask('package-rpm:release', ['easy_rpm:release']);
     grunt.registerTask('package', ['compress']);
 
     // Push
@@ -454,15 +498,13 @@ module.exports = function(grunt) {
     grunt.registerTask('snapshot',
         [
             'set-snapshot',
-            'update-version',
+            'set-new-version',
             'prod-build',
             'test',
             'inspect',
-            'package-rpm'
+            'package-rpm:snapshot'
         ]
     );
-
-    grunt.registerTask('snapshot-push', ['set-new-version', 'push']);
 
     grunt.registerTask('release',
         [
@@ -470,7 +512,7 @@ module.exports = function(grunt) {
             'prod-build',
             'test',
             'inspect',
-            'package-rpm'
+            'package-rpm:release'
         ]
     );
 
