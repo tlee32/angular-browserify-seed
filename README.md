@@ -1,5 +1,4 @@
 ## Skeleton App for Angular Apps
-This seed project includes the container API and an API client to converse with the cloud.
 
 ### Setup
 1. Clone this repo

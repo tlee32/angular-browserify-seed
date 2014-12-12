@@ -1,6 +1,12 @@
 {
-  "name": "Seed",
-  "version": "0.0.0",
+  "name": "<%= name %>",
+  "version": "0.0.1",
+  "title": "<%= title %>",
+  "description": "<%= description %>",
+  "settings": {
+    "offline": false,
+    "navigationBar": "auto"
+  },
   "dependencies": {
     "angular": "*",
     "angular-route": "*",
