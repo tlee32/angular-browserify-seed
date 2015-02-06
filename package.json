@@ -7,11 +7,7 @@
     "name": "<%= name %>",
     "dml": {
       "Application": {
-        "select": {},
-        "insert": {},
-        "delete": {},
-        "update": {},
-        "aggregate": {}
+        "select": {}
       }
     }
   },
