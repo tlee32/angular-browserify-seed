@@ -73,7 +73,8 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         src: [
-                            'package.json'
+                            'package.json',
+                            'LICENSE'
                         ],
                         dest: 'www',
                         filter: 'isFile'
@@ -440,7 +441,7 @@ module.exports = function(grunt) {
             'ngtemplates',
             'cacheBust',
             'clean:temp',
-            'file-creator:jenkinsEnvProperties'
+            'file-creator'
         ]
     );
 
