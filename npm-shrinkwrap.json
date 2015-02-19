@@ -2957,7 +2957,7 @@
           }
         },
         "es5-shim": {
-          "version": "4.0.3",
+          "version": "4.0.1",
           "from": "es5-shim@~4.0.1"
         },
         "jasmine-core": {
