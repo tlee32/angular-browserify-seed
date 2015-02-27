@@ -15,6 +15,7 @@
     "offline": false,
     "navigationBar": "auto"
   },
+  "autoUpdateVersion": true,
   "dependencies": {
     "angular": "*",
     "angular-route": "*",
