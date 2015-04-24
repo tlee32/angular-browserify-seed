@@ -13,7 +13,13 @@
   },
   "settings": {
     "offline": false,
-    "navigationBar": "auto"
+    "single_container_app": false,
+    "hide_from_global_store": false,
+    "new_type_required": false,
+    "troubleshooting_url": false,
+    "global_store_icon": "",
+    "screenshots": "",
+    "categories": []
   },
   "autoUpdateVersion": true,
   "dependencies": {
