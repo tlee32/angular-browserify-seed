@@ -6,7 +6,7 @@
   "profile": {
     "name": "<%= name %>",
     "dml": {
-      "Application": {
+      "BodhiApplication": {
         "select": {}
       }
     }
