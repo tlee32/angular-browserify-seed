@@ -12,14 +12,30 @@
     }
   },
   "settings": {
+	"type": "mobile",
+    "container_type": 0,
     "offline": false,
     "single_container_app": false,
     "hide_from_global_store": false,
     "new_type_required": false,
     "troubleshooting_url": false,
+	"public_path": "",
     "global_store_icon": "",
     "screenshots": "",
-    "categories": []
+    "categories": [],
+    "navigationBar": "auto",
+    "install": {
+      "new": {
+          "pre-type-install": [],
+          "model": [],
+          "post-type-install": []
+      },
+      "upgrade": {
+          "pre-type-install": [],
+          "model": [],
+          "post-type-install": []
+      }
+    }
   },
   "autoUpdateVersion": true,
   "dependencies": {
